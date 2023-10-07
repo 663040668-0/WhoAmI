@@ -1,0 +1,340 @@
+screen_manager: #Must use the exact name as the class defined in .py file
+#This method is useless if you've already use .add_widget
+    menu_screen:
+    howtoplay_screen:
+    gameinit_screen:
+    #These screens as well use the same name
+
+#import transitions to play with
+#:import slide kivy.uix.screenmanager.SlideTransition
+#:import fade kivy.uix.screenmanager.FadeTransition
+#:import no kivy.uix.screenmanager.NoTransition
+
+<menu_screen>: #Design the screen
+    name: "menu" #Name to be called in ScreenManager's operatation and so on
+    canvas.before:
+    #set the background color of the screen (before means before other widgets)
+        Color:
+            rgba: 0.082, 0.082, 0.082, 1
+        Rectangle: #add a shape as the canvas
+            pos: self.pos #pos of the screen
+            size: self.size #size of the screen
+
+    Image: #Add icon image
+        source: "assets/icon_monotone.png"
+        allow_stretch: True #allow the image to be resize
+        keep_ratio: True #fix the image's ratio
+        size_hint: None, None #Cancel the size_hint relate to the 'available space'
+        size: root.width*0.383, root.height*0.188 #Resize it to the screen instead
+        pos_hint: {"center_x":0.5,"top": (1)-0.229} #put on the desired ratio
+
+    BoxLayout: #Create BoxLayout to contains widgets
+        orientation: 'vertical' #Whatever the widgets to be order in which way
+        size_hint: 0.559, 0.209
+        pos_hint: {"center_x":0.5,"center_y": (0.9)-0.473} #0.9 is some weird ratio but it's worked
+        spacing: root.height*0.043
+
+        Button: #Create a button to switch the screen
+            id: "start"
+            text: "Start"
+            size_hint: None, None
+            size: root.width*0.559, root.height*0.083 #Resize it to the screen instead
+            pos_hint: {"center_x":0.5}
+            font_size: root.height*0.06
+            color: 0,0,0,1
+            background_color: (0.93,0.93,0.93,1)
+            background_normal: ""
+            on_release:
+                root.manager.transition = fade(duration=0.2)
+                #This root is just setting screen manager self a value
+
+                app.root.current = "gameinit" #Change the 'current' screen to desire screen
+                #But this app.root is calling the screen manager from .py so it need to mention 'app'
+
+        Button: #Create a button to switch the screen
+            id: "howto"
+            text: "How To Play"
+            size_hint: None, None
+            size: root.width*0.559, root.height*0.083 #Resize it to the screen instead
+            pos_hint: {"center_x":0.5}
+            font_size: root.height*0.04
+            color: 0.14,0.14,0.14,1
+            background_color: (0.93,0.93,0.93,1)
+            background_normal: ""
+            on_release:
+                root.manager.transition = fade(duration=0.2)
+                #This root is just setting screen manager self a value
+
+                app.root.current = "howtoplay" #Change the 'current' screen to desire screen
+                #But this app.root is calling the screen manager from .py so it need to mention 'app'
+
+<howtoplay_screen>: #Design the screen
+    name: "howtoplay" #Name to be called in ScreenManager's operatation and so on
+    canvas.before:
+    #set the background color of the screen (before means before other widgets)
+        Color:
+            rgba: 0.082, 0.082, 0.082, 1
+        Rectangle: #add a shape as the canvas
+            pos: self.pos #pos of the screen
+            size: self.size #size of the screen
+
+    BoxLayout: #Create BoxLayout to contains widgets
+        orientation: 'vertical' #Whatever the widgets to be order in which way
+        size_hint: 0.943, 0.139
+        pos_hint: {"center_x":0.5,"center_y": (1)-0.125}
+        canvas.before:
+        #set the background color of the screen (before means before other widgets)
+            Color:
+                rgba: 0.93,0.93,0.93,1
+            Rectangle: #add a shape as the canvas
+                pos: self.pos #pos of the screen
+                size: self.size #size of the screen
+
+        Label: #Create a label to insert a text
+            text: "How To Play"
+            font_size: root.height*0.06
+            color: 0,0,0,1
+        Label: #Create a label to insert a text
+            text: "Who Am I : Classic Mode"
+            font_size: root.height*0.04
+            color: 0,0,0,1
+
+    Button: #Create a button to switch the screen
+        text: "<"
+        size_hint: None, None
+        size: root.height*0.05, root.height*0.05 #Resize it to the screen instead
+        pos_hint: {"center_x":(1-0.943)+(0.05/2),"center_y":1-(0.125)+(0.139/4)}
+        font_size: root.height*0.06
+        valign: "middle"
+        halign: "center"
+        color: 0.14,0.14,0.14,1
+        background_color: (0.93,0.93,0.93,1)
+        background_normal: ""
+        on_release:
+            root.manager.transition = fade(duration=0.2)
+            #This root is just setting screen manager self a value
+
+            app.root.current =  root.manager.screen_history[-2] #Change the 'current' screen to desire screen
+            #But this app.root is calling the screen manager from .py so it need to mention 'app'
+
+    BoxLayout: #Create BoxLayout to contains widgets
+        orientation: 'vertical' #Whatever the widgets to be order in which way
+        vertical_align: 'top' #Start from the top
+        size_hint: 0.836, 0.533
+        pos_hint: {"center_x":0.5,"center_y": (1)-0.5}
+        spacing: self.height*0.03
+        canvas.before:
+        #set the background color of the screen (before means before other widgets)
+            Color:
+                rgba: 0,0,0,1
+            Rectangle: #add a shape as the canvas
+                pos: self.pos #pos of the screen
+                size: self.size #size of the screen
+
+        Label: #Create a label to insert a text
+            text: " 1) Host chooses the theme and\n toggles 'Anonymous Suggestion'. "
+            text_size: self.width, None
+            font_size: root.height*0.024
+            color: 0.93,0.93,0.93,1
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+        Label: #Create a label to insert a text
+            text: " 2) Everyone inserts their name and\n suggest a character regards to the\n theme. "
+            text_size: self.width, None
+            font_size: root.height*0.024
+            color: 0.93,0.93,0.93,1
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+        Label: #Create a label to insert a text
+            text: " 3) When finished, hit 'Start'. "
+            text_size: self.width, None
+            font_size: root.height*0.024
+            color: 0.93,0.93,0.93,1
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+        Label: #Create a label to insert a text
+            text: " 4) Bring this device to each players\n respectively. When they're ready,\n tap the screen."
+            text_size: self.width, None
+            font_size: root.height*0.024
+            color: 0.93,0.93,0.93,1
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+        Label: #Create a label to insert a text
+            text: " 5) Other players hint the player in each\n round to guess for their character.\n If they're correct, wipe the screen, else,\n tap the screen."
+            text_size: self.width, None
+            font_size: root.height*0.024
+            color: 0.93,0.93,0.93,1
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+        Label: #Create a label to insert a text
+            text: " 6) Repeat until the last one finishes.\n There will be a scoreline."
+            text_size: self.width, None
+            font_size: root.height*0.024
+            color: 0.93,0.93,0.93,1
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+        Label: #Space filler
+            text: ""
+            size_hint: 1, 1
+
+<gameinit_screen>: #Design the screen
+    name: "gameinit" #Name to be called in ScreenManager's operatation and so on
+    canvas.before:
+    #set the background color of the screen (before means before other widgets)
+        Color:
+            rgba: 0.082, 0.082, 0.082, 1
+        Rectangle: #add a shape as the canvas
+            pos: self.pos #pos of the screen
+            size: self.size #size of the screen
+
+    BoxLayout: #Create BoxLayout to contains widgets
+        orientation: 'vertical' #Whatever the widgets to be order in which way
+        size_hint: 0.943, 0.139
+        pos_hint: {"center_x":0.5,"center_y": (1)-0.125}
+        canvas.before:
+        #set the background color of the screen (before means before other widgets)
+            Color:
+                rgba: 0.93,0.93,0.93,1
+            Rectangle: #add a shape as the canvas
+                pos: self.pos #pos of the screen
+                size: self.size #size of the screen
+
+        Label: #Create a label to insert a text
+            text: "Who Am I : Classic Mode"
+            font_size: root.height*0.032
+            color: 0,0,0,1
+        Label: #Create a label to insert a text
+            text: "Settings"
+            font_size: root.height*0.042
+            color: 0,0,0,1
+        Label: #Space filler
+            text: ""
+            size_hint: None, None
+            size: self.parent.width*1, self.parent.height*0.1
+
+    BoxLayout: #Create BoxLayout to contains widgets
+        orientation: 'vertical' #Whatever the widgets to be order in which way
+        vertical_align: 'top' #Start from the top
+        size_hint: 0.73, 0.139
+        pos_hint: {"center_x":0.5,"center_y":(1)-0.3}
+        spacing: self.height*0.05
+        canvas.before:
+        #set the background color of the screen (before means before other widgets)
+            Color:
+                rgba: 0.929,0.929,0.929,1
+            Rectangle: #add a shape as the canvas
+                pos: self.pos #pos of the screen
+                size: self.size #size of the screen
+        Label: #Space filler
+            text: ""
+            size_hint: None, None
+            size: self.parent.width*1, self.parent.height*0.05
+        Label: #Create a label to insert a text
+            text: "Theme"
+            text_size: self.width, None
+            font_size: root.height*0.04
+            color: 0.14,0.14,0.14,1
+            size_hint: None, None
+            size: self.parent.width*1, self.parent.height*0.4
+            height: self.texture_size[1]
+            valign: "middle"
+            halign: "center"
+        TextInput:
+            id: theme
+            input_type: 'text' #Specify input type as text
+            multiline: False #Disable multiline
+            hint_text: app.default_theme #Placeholder text
+            input_filter: None #Character limit set to none
+            write_tab: False #Stop focus when pressing Enter or tapping outside
+            use_bubble: True #Enable text manipulation
+            valign: "middle" #Align the text to the middle, Vertically
+            halign: "center" #Align the text to the center, Horizontally
+            size_hint: None, None
+            size: self.parent.width*0.9, self.parent.height*0.4
+            pos_hint: {"center_x":0.5}
+            font_size: root.height*0.032
+            foreground_color: (1,1,1,1)
+            background_color: (0,0,0,1)
+        Label: #Space filler
+            text: ""
+            size_hint: None, None
+            size: self.parent.width*1, self.parent.height*0.1
+
+    BoxLayout: #Create BoxLayout to contains widgets
+        orientation: 'vertical' #Whatever the widgets to be order in which way
+        vertical_align: 'top' #Start from the top
+        size_hint: 0.73, 0.139
+        pos_hint: {"center_x":0.5,"center_y":(1)-0.475}
+        spacing: self.height*0.05
+        canvas.before:
+        #set the background color of the screen (before means before other widgets)
+            Color:
+                rgba: 0.929,0.929,0.929,1
+            Rectangle: #add a shape as the canvas
+                pos: self.pos #pos of the screen
+                size: self.size #size of the screen
+        Label: #Space filler
+            text: ""
+            size_hint: None, None
+            size: self.parent.width*1, self.parent.height*0.05
+        Label: #Create a label to insert a text
+            text: "Anonymous Name Suggestion"
+            text_size: self.width, None
+            font_size: root.height*0.026
+            color: 0.14,0.14,0.14,1
+            size_hint: None, None
+            size: self.parent.width*1, self.parent.height*0.4
+            height: self.texture_size[1]
+            valign: "middle"
+            halign: "center"
+        Switch:
+            id: ans_status
+            pos_hint: {"center_x":0.5}
+            size_hint: None, None
+            size: self.parent.width*0.9, self.parent.height*0.4
+            active: app.enable_ans #Initial with the default value
+            active_color: 0,1,0,1 #Green when active
+            inactive_color: 1,0,0,1 #Red when inactive
+            foreground_color: 0,0,0,1
+            border: 0,0,0,1
+        Label: #Space filler
+            text: ""
+            size_hint: None, None
+            size: self.parent.width*1, self.parent.height*0.1
+
+    Button: #Create a button to switch the screen
+        text: "Next"
+        size_hint: None, None
+        size: root.width*0.278, root.height*0.075 #Resize it to the screen instead
+        pos_hint: {"center_x":0.5,"center_y":1-(0.666)}
+        font_size: root.height*0.04
+        color: 0,0,0,1
+        background_color: (0.93,0.93,0.93,1)
+        background_normal: ""
+        on_release:
+            app.on_game_init(root.ids.theme.text,root.ids.ans_status.active)
+            #Finalize the game initialize
+
+    Button: #Create a button to switch the screen
+        text: "<"
+        size_hint: None, None
+        size: root.height*0.05, root.height*0.05 #Resize it to the screen instead
+        pos_hint: {"center_x":(1-0.943)+(0.05/2),"center_y":1-(0.125)+(0.139/4)}
+        font_size: root.height*0.06
+        valign: "middle"
+        halign: "center"
+        color: 0.14,0.14,0.14,1
+        background_color: (0.93,0.93,0.93,1)
+        background_normal: ""
+        on_release:
+            root.manager.transition = fade(duration=0.2)
+            #This root is just setting screen manager self a value
+
+            app.root.current =  root.manager.screen_history[-2] #Change the 'current' screen to desire screen
+            #But this app.root is calling the screen manager from .py so it need to mention 'app'
